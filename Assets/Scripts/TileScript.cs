@@ -23,18 +23,24 @@ public class TileScript : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            // ScoreAndGameover.Instance.Points++;
+            // Debug.Log(ScoreAndGameover.Instance.Points);
             TileManager.Instance.SpawnTile();
+            PickupManager.Instance.SpawnPickup();
             StartCoroutine(FallDown());
         }
     }
 
+    // OPTIMISE #############################################################################################################
     IEnumerator FallDown()
     {
         yield return new WaitForSeconds(fallDelay);
+        // GetComponent<Rigidbody>().isKinematic = false;
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.isKinematic = false;
         yield return new WaitForSeconds(1f);
         rb.isKinematic = true;
+        // gameObject.GetComponent<Rigidbody>().isKinematic = true;
         gameObject.SetActive(false);
     }
 }

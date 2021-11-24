@@ -8,7 +8,7 @@ public class TileManager : MonoBehaviour
     GameObject tilePrefab;
 
     [SerializeField]
-    GameObject currentTile;
+    public GameObject currentTile;
 
     // Singleton
     private static TileManager instance;
@@ -59,12 +59,11 @@ public class TileManager : MonoBehaviour
                 newTilePosZ = 2;
             }
 
-            GameObject spawnedTile = ObjectPool.SharedInstance.GetPooledObject(); // ##### probably fucks up the spawn position?
+            GameObject spawnedTile = ObjectPool01.SharedInstance.GetPooledObject();
 
             if (spawnedTile != null)
             {
-                // currentTile.transform.position = new Vector3(currentTile.transform.position.x + newTilePosX, -0.45f, currentTile.transform.position.z + newTilePosZ);
-                spawnedTile.transform.position = new Vector3(currentTile.transform.position.x + newTilePosX, -0.45f, currentTile.transform.position.z + newTilePosZ);
+                spawnedTile.transform.position = new Vector3(currentTile.transform.position.x + newTilePosX, currentTile.transform.position.y, currentTile.transform.position.z + newTilePosZ);
                 spawnedTile.transform.rotation = Quaternion.identity;
                 currentTile = spawnedTile;
                 spawnedTile.SetActive(true);

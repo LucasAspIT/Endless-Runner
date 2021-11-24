@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool : MonoBehaviour
+public class ObjectPool01 : MonoBehaviour
 {
-    public static ObjectPool SharedInstance;
+    public static ObjectPool01 SharedInstance;
     public List<GameObject> pooledObjects;
     public GameObject objectToPool;
     public int amountToPool;
@@ -32,8 +32,13 @@ public class ObjectPool : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Returns a GameObject from the object pool, in a deactivated state.
+    /// </summary>
+    /// <returns>A pooled object, ready to be activated and used. Otherwise returns null, if no pooled object is deactivated and in the pool.</returns>
     public GameObject GetPooledObject()
     {
+        // Goes through the pooledObjects List of GameObjects until it finds a deactivated one then returns it.
         for (int i = 0; i < amountToPool; i++)
         {
             if (!pooledObjects[i].activeInHierarchy)
@@ -41,6 +46,7 @@ public class ObjectPool : MonoBehaviour
                 return pooledObjects[i];
             }
         }
+        // If the for loop finds nothing, return null.
         return null;
     }
 }
