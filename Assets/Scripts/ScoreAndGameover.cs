@@ -66,6 +66,16 @@ public class ScoreAndGameover : MonoBehaviour
     }
 
     /// <summary>
+    /// Moves the score of the run upon death, so it's in the middle of the screen, right above the high-score.
+    /// </summary>
+    public void DeathScore()
+    {
+        scoreTextHUD.text = "SCORE:\n" + Points.ToString();
+        scoreTextHUD.alignment = TextAlignmentOptions.Center;
+        scoreTextHUD.transform.position = new Vector3(scoreTextHUD.transform.position.x, 660f, 0f);
+    }
+
+    /// <summary>
     /// Reloads the scene, effectively "restarting" the game.
     /// </summary>
     public void RestartGame()

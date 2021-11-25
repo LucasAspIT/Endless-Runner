@@ -73,6 +73,7 @@ public class PlayerController : MonoBehaviour
         // Enable death screen
         if (player.transform.position.y < -10)
         {
+            ScoreAndGameover.Instance.DeathScore();
             highscoreText.SetActive(true);
             restartButton.SetActive(true);
         }
