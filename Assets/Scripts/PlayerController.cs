@@ -12,6 +12,9 @@ public class PlayerController : MonoBehaviour
     float speed = 5f;
 
     [SerializeField]
+    GameObject highscoreText;
+
+    [SerializeField]
     GameObject restartButton;
 
     private Rigidbody rb;
@@ -67,9 +70,10 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Player isDead = true.");
         }
 
-        // Enable restart button
+        // Enable death screen
         if (player.transform.position.y < -10)
         {
+            highscoreText.SetActive(true);
             restartButton.SetActive(true);
         }
 

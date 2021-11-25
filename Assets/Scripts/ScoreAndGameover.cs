@@ -12,6 +12,10 @@ public class ScoreAndGameover : MonoBehaviour
     [SerializeField]
     public TextMeshProUGUI scoreTextHUD;
 
+    [SerializeField]
+    private TextMeshProUGUI highscoreTextHUD;
+    private int highscore;
+
     private static ScoreAndGameover instance;
 
     public static ScoreAndGameover Instance
@@ -39,6 +43,11 @@ public class ScoreAndGameover : MonoBehaviour
         {
             points = value;
             scoreTextHUD.text = "SCORE: " + Points.ToString();
+            if (points > highscore)
+            {
+                highscore = points;
+                highscoreTextHUD.text = highscore.ToString();
+            }
             // Debug.Log("Points property 'set' activated.");
         }
     }
