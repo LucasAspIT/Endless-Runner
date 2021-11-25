@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +8,6 @@ public class ObjectPool02 : MonoBehaviour
     public GameObject objectToPool;
     public int amountToPool;
 
-    // Start is called before the first frame update
     void Awake()
     {
         SharedInstance = this;
@@ -24,12 +22,6 @@ public class ObjectPool02 : MonoBehaviour
             temp.SetActive(false); // Disable the object
             pooledObjects.Add(temp); // Add the object to the pooledObjects list
         }
-    }
-
-    // Update is called once per frame
-    void Start()
-    {
-
     }
 
     /// <summary>

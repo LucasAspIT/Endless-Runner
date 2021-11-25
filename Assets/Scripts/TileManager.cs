@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TileManager : MonoBehaviour
@@ -19,35 +17,30 @@ public class TileManager : MonoBehaviour
         {
             if (instance == null)
             {
-                instance = GameObject.FindObjectOfType<TileManager>(); // Make a reference to the TileManager instance so it can be accessed from other places
+                instance = GameObject.FindObjectOfType<TileManager>(); // Make a reference to the TileManager instance so it can be accessed from other places.
             }
             return instance;
         }
     }
 
-    // Start is called before the first frame update
     void Start()
     {
+        // Spawn some initial tiles.
         for (int i = 0; i < 30; i++)
         {
             SpawnTile();
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     /// <summary>
-    /// Spawn the next tile, and set it as the currentTile
+    /// Spawn the next tile, and set it as the currentTile.
     /// </summary>
     public void SpawnTile()
     {
         int newTilePosX;
         int newTilePosZ;
 
+            // 50/50 chance to spawn in either two directions.
             if (Random.value < 0.5f)
             {
                 newTilePosX = 2;
@@ -59,16 +52,15 @@ public class TileManager : MonoBehaviour
                 newTilePosZ = 2;
             }
 
-            GameObject spawnedTile = ObjectPool01.SharedInstance.GetPooledObject();
+            GameObject spawnedTile = ObjectPool01.SharedInstance.GetPooledObject(); // Take a GameObject from the pool.
 
             if (spawnedTile != null)
             {
+                // Position and activate the object.
                 spawnedTile.transform.position = new Vector3(currentTile.transform.position.x + newTilePosX, currentTile.transform.position.y, currentTile.transform.position.z + newTilePosZ);
                 spawnedTile.transform.rotation = Quaternion.identity;
                 currentTile = spawnedTile;
                 spawnedTile.SetActive(true);
             }
-
-        // currentTile = Instantiate(tilePrefab, new Vector3(currentTile.transform.position.x + newTilePosX, -0.45f, currentTile.transform.position.z + newTilePosZ), Quaternion.identity);
     }
 }

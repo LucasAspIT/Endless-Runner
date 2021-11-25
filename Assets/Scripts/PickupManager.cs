@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PickupManager : MonoBehaviour
@@ -20,22 +18,10 @@ public class PickupManager : MonoBehaviour
         {
             if (instance == null)
             {
-                instance = GameObject.FindObjectOfType<PickupManager>(); // Make a reference to the PickupManager instance so it can be accessed from other places
+                instance = GameObject.FindObjectOfType<PickupManager>(); // Make a reference to the PickupManager instance so it can be accessed from other places.
             }
             return instance;
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     /// <summary>
@@ -45,13 +31,13 @@ public class PickupManager : MonoBehaviour
     {
         if (Random.value < pickupSpawnChance)
         {
-            GameObject spawnedPickup = ObjectPool02.SharedInstance.GetPooledObject();
+            GameObject spawnedPickup = ObjectPool02.SharedInstance.GetPooledObject(); // Take a GameObject from the pool.
 
             if (spawnedPickup != null)
             {
+                // Position and activate the object.
                 spawnedPickup.transform.position = new Vector3(TileManager.Instance.currentTile.transform.position.x - 0.3f, TileManager.Instance.currentTile.transform.position.y + 2.6f, TileManager.Instance.currentTile.transform.position.z - 0.2f);
                 spawnedPickup.transform.rotation = Quaternion.identity;
-                // currentTile = spawnedPickup;
                 spawnedPickup.SetActive(true);
             }
         }

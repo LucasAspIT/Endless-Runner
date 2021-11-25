@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Rotator : MonoBehaviour
@@ -9,9 +7,9 @@ public class Rotator : MonoBehaviour
 
     private void Start()
     {
-        randomX = UnityEngine.Random.Range(minSpeed, maxSpeed);
-        randomY = UnityEngine.Random.Range(minSpeed, maxSpeed);
-        randomZ = UnityEngine.Random.Range(minSpeed, maxSpeed);
+        randomX = Random.Range(minSpeed, maxSpeed);
+        randomY = Random.Range(minSpeed, maxSpeed);
+        randomZ = Random.Range(minSpeed, maxSpeed);
     }
 
     void FixedUpdate()

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -22,7 +20,6 @@ public class PlayerController : MonoBehaviour
 
     public static bool isDead;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -32,15 +29,14 @@ public class PlayerController : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    // Update is called once per frame
     void Update()
     {
         // Click/tap control
         if (Input.GetKeyDown(KeyCode.Mouse0) && !isDead)
         {
-            // Debug.Log("Mouse 0");
             ScoreAndGameover.Instance.Points++;
 
+            // Switch between moving the two directions.
             if (xy)
             {
                 rb.velocity = new Vector3(speed, 0f, 0f);
@@ -53,24 +49,13 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        /*
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
-
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-
-        rb.AddForce(movement * speed);
-        */
-
-
-        // Player death
+        // Player death.
         if (player.transform.position.y < 0)
         {
             isDead = true;
-            Debug.Log("Player isDead = true.");
         }
 
-        // Enable death screen
+        // Enable death screen.
         if (player.transform.position.y < -10)
         {
             ScoreAndGameover.Instance.DeathScore();
@@ -78,11 +63,10 @@ public class PlayerController : MonoBehaviour
             restartButton.SetActive(true);
         }
 
-        // Stop player from falling forever after death
+        // Stop player from falling forever after death.
         if (player.transform.position.y < -20)
         {
             Time.timeScale = 0;
-            Debug.Log("Position Y: Less than 20, activated.");
         }
     }
 }

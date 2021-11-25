@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
@@ -14,6 +12,8 @@ public class ScoreAndGameover : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI highscoreTextHUD;
+
+    private int points;
     private int highscore;
 
     private static ScoreAndGameover instance;
@@ -24,14 +24,11 @@ public class ScoreAndGameover : MonoBehaviour
         {
             if (instance == null)
             {
-                instance = GameObject.FindObjectOfType<ScoreAndGameover>(); // Make a reference to the ScoreAndGameover instance so it can be accessed from other places
+                instance = FindObjectOfType<ScoreAndGameover>(); // Make a reference to the ScoreAndGameover instance so it can be accessed from other places.
             }
             return instance;
         }
     }
-
-
-    private int points;
 
     public int Points
     {
@@ -48,21 +45,7 @@ public class ScoreAndGameover : MonoBehaviour
                 highscore = points;
                 highscoreTextHUD.text = highscore.ToString();
             }
-            // Debug.Log("Points property 'set' activated.");
         }
-    }
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     /// <summary>
