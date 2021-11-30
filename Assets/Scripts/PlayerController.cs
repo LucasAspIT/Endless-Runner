@@ -5,9 +5,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     GameObject player;
 
+
     [SerializeField]
     [Range(1f, 10f)]
-    float speed = 5f;
+    private float speed = 5f;
 
     [SerializeField]
     GameObject highscoreText;
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private bool xy = true;
 
     public static bool isDead;
+    public static bool isEnabled = true;
 
     void Start()
     {
@@ -32,7 +34,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // Click/tap control
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !isDead)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !isDead && isEnabled)
         {
             ScoreAndGameover.Instance.Points++;
 

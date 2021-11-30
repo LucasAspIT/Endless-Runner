@@ -55,7 +55,8 @@ public class ScoreAndGameover : MonoBehaviour
     {
         scoreTextHUD.text = "SCORE:\n" + Points.ToString();
         scoreTextHUD.alignment = TextAlignmentOptions.Center;
-        scoreTextHUD.transform.position = new Vector3(scoreTextHUD.transform.position.x, 660f, 0f);
+        // scoreTextHUD.transform.position = new Vector3(scoreTextHUD.transform.position.x, 660f, 0f);
+        // scoreTextHUD.rectTransform.anchoredPosition #####################
     }
 
     /// <summary>
