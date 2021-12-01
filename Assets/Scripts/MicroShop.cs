@@ -17,11 +17,13 @@ public class MicroShop : MonoBehaviour
 
     public TextMeshProUGUI currentMoney;
 
+/*
     int test01 = 0;
     int test02 = 0;
     int test03 = 0;
     int test04 = 0;
     int test05 = 0;
+*/
 
     public int Gems
     {
@@ -71,14 +73,14 @@ public class MicroShop : MonoBehaviour
     {
         if (!MenuOpen)
         {
-            Debug.Log("Controls disabled.");
+            // Debug.Log("Controls disabled.");
             PlayerController.isEnabled = false;
             MenuUI.SetActive(true);
             MenuOpen = true;
         }
         else if (MenuOpen)
         {
-            Debug.Log("Controls enabled.");
+            // Debug.Log("Controls enabled.");
             PlayerController.isEnabled = true;
             MenuUI.SetActive(false);
             MenuOpen = false;
@@ -103,34 +105,34 @@ public class MicroShop : MonoBehaviour
     {
         shopSelect = 1;
         itemBeingBought = true;
-        Debug.Log("Gem100: " + ++test01);
+        // Debug.Log("Gem100: " + ++test01);
     }
 
     public void Gem300()
     {
         shopSelect = 2;
         itemBeingBought = true;
-        Debug.Log("Gem300: " + ++test02);
+        // Debug.Log("Gem300: " + ++test02);
     }
 
     public void Gem750()
     {
         shopSelect = 3;
         itemBeingBought = true;
-        Debug.Log("Gem750: " + ++test03);
+        // Debug.Log("Gem750: " + ++test03);
     }
 
     public void Gem1200()
     {
         shopSelect = 4;
         itemBeingBought = true;
-        Debug.Log("Gem1200: " + ++test04);
+        // Debug.Log("Gem1200: " + ++test04);
     }
 
     public void Gem2000()
     {
         shopSelect = 5;
         itemBeingBought = true;
-        Debug.Log("Gem2000: " + ++test05);
+        // Debug.Log("Gem2000: " + ++test05);
     }
 }
