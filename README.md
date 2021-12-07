@@ -1,0 +1,1 @@
+A simple little game project made purely for Unity and C# practice.
