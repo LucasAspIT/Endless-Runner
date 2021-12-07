@@ -6688,9 +6688,9 @@ MonoBehaviour:
   passwordRegisterVerifyField: {fileID: 4347126611222142101}
   warningRegisterText: {fileID: 4347126609584248338}
   usernameField: {fileID: 8850111747245671148}
-  xpField: {fileID: 8850111749299174027}
-  killsField: {fileID: 8850111748017175058}
-  deathsField: {fileID: 8850111748432649687}
+  highscoreField: {fileID: 8850111749299174027}
+  totalScoreField: {fileID: 8850111748017175058}
+  totalDeathsField: {fileID: 8850111748432649687}
   scoreElement: {fileID: 1879445940651037232, guid: 756ec6ca0dd4a2347bbb9f9dffd475b6, type: 3}
   scoreboardContent: {fileID: 8327668056021548031}
 --- !u!1 &1946889601
@@ -12768,7 +12768,7 @@ GameObject:
   - component: {fileID: 8327668055591065271}
   - component: {fileID: 8327668055591065270}
   m_Layer: 0
-  m_Name: Deaths
+  m_Name: TotalScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12813,7 +12813,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Deaths
+  m_text: Total score
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -13209,7 +13209,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Kills
+  m_text: Highscore
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -13298,7 +13298,7 @@ GameObject:
   - component: {fileID: 8327668055854335453}
   - component: {fileID: 8327668055854335452}
   m_Layer: 0
-  m_Name: Kills
+  m_Name: Highscore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13654,7 +13654,7 @@ GameObject:
   - component: {fileID: 8327668056326717428}
   - component: {fileID: 8327668056326717431}
   m_Layer: 0
-  m_Name: Xp
+  m_Name: TotalDeaths
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13707,7 +13707,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Xp
+  m_text: Total deaths
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -15947,7 +15947,7 @@ GameObject:
   - component: {fileID: 8850111747805463242}
   - component: {fileID: 8850111747805463243}
   m_Layer: 0
-  m_Name: Deaths
+  m_Name: TotalDeaths
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16267,7 +16267,7 @@ GameObject:
   - component: {fileID: 8850111748017175061}
   - component: {fileID: 8850111748017175058}
   m_Layer: 0
-  m_Name: Kills_Input
+  m_Name: TotalScore_Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17119,7 +17119,7 @@ GameObject:
   - component: {fileID: 8850111748415261580}
   - component: {fileID: 8850111748415261581}
   m_Layer: 0
-  m_Name: Kills_Text
+  m_Name: TotalScore_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17153,7 +17153,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Kills
+  m_text: Total score
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -17255,7 +17255,7 @@ GameObject:
   - component: {fileID: 8850111748432649686}
   - component: {fileID: 8850111748432649687}
   m_Layer: 0
-  m_Name: Deaths_Input
+  m_Name: TotalDeaths_Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17430,7 +17430,7 @@ GameObject:
   - component: {fileID: 8850111748436963630}
   - component: {fileID: 8850111748436963631}
   m_Layer: 0
-  m_Name: XP
+  m_Name: Highscore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17668,7 +17668,7 @@ GameObject:
   - component: {fileID: 8850111748726465957}
   - component: {fileID: 8850111748726465954}
   m_Layer: 0
-  m_Name: XP_Text
+  m_Name: Highscore_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17694,7 +17694,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Experience
+  m_text: Highscore
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -18188,7 +18188,7 @@ GameObject:
   - component: {fileID: 8850111749125124297}
   - component: {fileID: 8850111749125124918}
   m_Layer: 0
-  m_Name: Deaths_Text
+  m_Name: TotalDeaths_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18214,7 +18214,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Deaths
+  m_text: Total deaths
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -18603,7 +18603,7 @@ GameObject:
   - component: {fileID: 8850111749229458089}
   - component: {fileID: 8850111749229458070}
   m_Layer: 0
-  m_Name: Kills
+  m_Name: TotalScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18830,7 +18830,7 @@ GameObject:
   - component: {fileID: 8850111749299174026}
   - component: {fileID: 8850111749299174027}
   m_Layer: 0
-  m_Name: XP_Input
+  m_Name: Highscore_Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

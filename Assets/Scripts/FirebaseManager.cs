@@ -33,9 +33,9 @@ public class FirebaseManager : MonoBehaviour
     // User Data variables
     [Header("UserData")]
     public TMP_InputField usernameField;
-    public TMP_InputField xpField;
-    public TMP_InputField killsField;
-    public TMP_InputField deathsField;
+    public TMP_InputField highscoreField;
+    public TMP_InputField totalScoreField;
+    public TMP_InputField totalDeathsField;
     public GameObject scoreElement;
     public Transform scoreboardContent;
 
@@ -107,9 +107,9 @@ public class FirebaseManager : MonoBehaviour
         StartCoroutine(UpdateUsernameAuth(usernameField.text));
         StartCoroutine(UpdateUsernameDatabase(usernameField.text));
 
-        StartCoroutine(UpdateXp(int.Parse(xpField.text)));
-        StartCoroutine(UpdateKills(int.Parse(killsField.text)));
-        StartCoroutine(UpdateDeaths(int.Parse(deathsField.text)));
+        StartCoroutine(UpdateHighscore(int.Parse(highscoreField.text)));
+        StartCoroutine(UpdateTotalScore(int.Parse(totalScoreField.text)));
+        StartCoroutine(UpdateTotalDeaths(int.Parse(totalDeathsField.text)));
     }
 
     // Function for the scoreboard button
@@ -292,10 +292,10 @@ public class FirebaseManager : MonoBehaviour
         }
     }
 
-    private IEnumerator UpdateXp(int _xp)
+    private IEnumerator UpdateHighscore(int _highscore)
     {
-        // Set the currently logged in user xp
-        var DBTask = DBreference.Child("users").Child(User.UserId).Child("xp").SetValueAsync(_xp);
+        // Set the currently logged in user highscore
+        var DBTask = DBreference.Child("users").Child(User.UserId).Child("highscore").SetValueAsync(_highscore);
 
         yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
 
@@ -305,14 +305,14 @@ public class FirebaseManager : MonoBehaviour
         }
         else
         {
-            // Xp is now updated
+            // Highscore is now updated
         }
     }
 
-    private IEnumerator UpdateKills(int _kills)
+    private IEnumerator UpdateTotalScore(int _totalScore)
     {
-        // Set the currently logged in user kills
-        var DBTask = DBreference.Child("users").Child(User.UserId).Child("kills").SetValueAsync(_kills);
+        // Set the currently logged in user totalScore
+        var DBTask = DBreference.Child("users").Child(User.UserId).Child("totalScore").SetValueAsync(_totalScore);
 
         yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
 
@@ -322,14 +322,14 @@ public class FirebaseManager : MonoBehaviour
         }
         else
         {
-            // Kills are now updated
+            // Total score is now updated
         }
     }
 
-    private IEnumerator UpdateDeaths(int _deaths)
+    private IEnumerator UpdateTotalDeaths(int _totalDeaths)
     {
-        // Set the currently logged in user deaths
-        var DBTask = DBreference.Child("users").Child(User.UserId).Child("deaths").SetValueAsync(_deaths);
+        // Set the currently logged in user totalDeaths
+        var DBTask = DBreference.Child("users").Child(User.UserId).Child("totalDeaths").SetValueAsync(_totalDeaths);
 
         yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
 
@@ -339,7 +339,7 @@ public class FirebaseManager : MonoBehaviour
         }
         else
         {
-            // Deaths are now updated
+            // Total deaths are now updated
         }
     }
 
@@ -357,25 +357,27 @@ public class FirebaseManager : MonoBehaviour
         else if (DBTask.Result.Value == null)
         {
             // No data exists yet
-            xpField.text = "0";
-            killsField.text = "0";
-            deathsField.text = "0";
+            highscoreField.text = "0";
+            totalScoreField.text = "0";
+            totalDeathsField.text = "0";
+
+            SaveDataButton();
         }
         else
         {
             // Data has been retrieved
             DataSnapshot snapshot = DBTask.Result;
 
-            xpField.text = snapshot.Child("xp").Value.ToString();
-            killsField.text = snapshot.Child("kills").Value.ToString();
-            deathsField.text = snapshot.Child("deaths").Value.ToString();
+            highscoreField.text = snapshot.Child("highscore").Value.ToString();
+            totalScoreField.text = snapshot.Child("totalScore").Value.ToString();
+            totalDeathsField.text = snapshot.Child("totalDeaths").Value.ToString();
         }
     }
 
     private IEnumerator LoadScoreboardData()
     {
-        // Get all the users data ordered by kills amount
-        var DBTask = DBreference.Child("users").OrderByChild("kills").GetValueAsync();
+        // Get all the users data ordered by highscore.
+        var DBTask = DBreference.Child("users").OrderByChild("highscore").GetValueAsync();
 
         yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
 
@@ -398,13 +400,13 @@ public class FirebaseManager : MonoBehaviour
             foreach (DataSnapshot childSnapshot in snapshot.Children.Reverse<DataSnapshot>())
             {
                 string username = childSnapshot.Child("username").Value.ToString();
-                int kills = int.Parse(childSnapshot.Child("kills").Value.ToString());
-                int deaths = int.Parse(childSnapshot.Child("deaths").Value.ToString());
-                int xp = int.Parse(childSnapshot.Child("xp").Value.ToString());
+                int highscore = int.Parse(childSnapshot.Child("highscore").Value.ToString());
+                int totalScore = int.Parse(childSnapshot.Child("totalScore").Value.ToString());
+                int totalDeaths = int.Parse(childSnapshot.Child("totalDeaths").Value.ToString());
 
                 // Instantiate new scoreboard elements
                 GameObject scoreboardElement = Instantiate(scoreElement, scoreboardContent);
-                scoreboardElement.GetComponent<ScoreElement>().NewScoreElement(username, kills, deaths, xp);
+                scoreboardElement.GetComponent<ScoreElement>().NewScoreElement(username, highscore, totalScore, totalDeaths);
             }
 
             // Go to scoareboard screen
