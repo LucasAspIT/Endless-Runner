@@ -35,3 +35,9 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# CUSTOM IGNORES
+Assets/Clean Settings UI*
+Assets/Firebase*
+Assets/Editor Default Resources/Firebase*
+Assets/StreamingAssets/google-services-desktop.json

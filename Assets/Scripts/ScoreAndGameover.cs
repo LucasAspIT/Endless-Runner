@@ -5,10 +5,19 @@ using UnityEngine.SceneManagement;
 public class ScoreAndGameover : MonoBehaviour
 {
     [SerializeField]
-    GameObject player;
+    private GameObject player;
 
     [SerializeField]
-    public TextMeshProUGUI scoreTextHUD;
+    private GameObject liveShopButton;
+
+    [SerializeField]
+    private GameObject deadShopButton;
+
+    [SerializeField]
+    private TextMeshProUGUI topLeftScoreHUD;
+
+    [SerializeField]
+    private TextMeshProUGUI endScreenScoreHUD;
 
     [SerializeField]
     private TextMeshProUGUI highscoreTextHUD;
@@ -39,12 +48,7 @@ public class ScoreAndGameover : MonoBehaviour
         set
         {
             points = value;
-            scoreTextHUD.text = "SCORE: " + Points.ToString();
-            if (points > highscore)
-            {
-                highscore = points;
-                highscoreTextHUD.text = highscore.ToString();
-            }
+            topLeftScoreHUD.text = "SCORE: " + Points.ToString();
         }
     }
 
@@ -53,10 +57,17 @@ public class ScoreAndGameover : MonoBehaviour
     /// </summary>
     public void DeathScore()
     {
-        scoreTextHUD.text = "SCORE:\n" + Points.ToString();
-        scoreTextHUD.alignment = TextAlignmentOptions.Center;
-        // scoreTextHUD.transform.position = new Vector3(scoreTextHUD.transform.position.x, 660f, 0f);
-        // scoreTextHUD.rectTransform.anchoredPosition #####################
+        topLeftScoreHUD.enabled = false;
+        endScreenScoreHUD.text = Points.ToString();
+
+        if (Points > highscore)
+        {
+            highscore = Points;
+            highscoreTextHUD.text = highscore.ToString();
+        }
+
+        liveShopButton.SetActive(false);
+        deadShopButton.SetActive(true);
     }
 
     /// <summary>

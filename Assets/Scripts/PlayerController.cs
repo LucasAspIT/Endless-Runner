@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
     private bool xy = true;
+    private bool deathComplete = false;
 
     public static bool isDead;
     public static bool isEnabled = true;
@@ -33,8 +35,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // Click/tap control
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !isDead && isEnabled)
+        // Click/tap control - make sure player isn't dead, that controls are enabled, and what's being clicked/tapped is a gameobject (not UI).
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !isDead && isEnabled && !EventSystem.current.IsPointerOverGameObject())
         {
             ScoreAndGameover.Instance.Points++;
 
@@ -52,23 +54,27 @@ public class PlayerController : MonoBehaviour
         }
 
         // Player death.
-        if (player.transform.position.y < 0)
+        if (!isDead && player.transform.position.y < 0)
         {
             isDead = true;
         }
 
-        // Enable death screen.
-        if (player.transform.position.y < -10)
+        if (isDead && !deathComplete)
         {
-            ScoreAndGameover.Instance.DeathScore();
-            highscoreText.SetActive(true);
-            restartButton.SetActive(true);
-        }
+            // Enable death screen.
+            if (player.transform.position.y < -10)
+            {
+                ScoreAndGameover.Instance.DeathScore();
+                highscoreText.SetActive(true);
+                restartButton.SetActive(true);
+            }
 
-        // Stop player from falling forever after death.
-        if (player.transform.position.y < -20)
-        {
-            Time.timeScale = 0;
+            // Stop player from falling forever after death.
+            if (player.transform.position.y < -20)
+            {
+                Time.timeScale = 0;
+                deathComplete = true;
+            }
         }
     }
 }
