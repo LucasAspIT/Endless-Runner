@@ -1,0 +1,5 @@
+Uses the "Clean Settings UI" asset from the Unity Asset Store.
+
+Uses Firebase from Google - must have FirebaseAuth and FirebaseDatabase installed (imported) to the project.
+
+For Firebase to work, must have the "google-services.json" file at the root of the Assets folder. The json file can be downloaded from the Firebase site after logging in.
