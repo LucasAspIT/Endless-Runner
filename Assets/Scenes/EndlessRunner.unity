@@ -1300,7 +1300,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ERROR
+  m_text: Not logged in
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -13630,9 +13630,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1902061148}
-        m_TargetAssemblyTypeName: FirebaseManager, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 1028840747}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: UserDataScreen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
