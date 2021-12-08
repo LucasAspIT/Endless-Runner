@@ -47,7 +47,7 @@ public class ScoreAndGameover : MonoBehaviour
     private void Awake()
     {
         // firebaseManager = gameObject.GetComponent<FirebaseManager>(); // ###################### Not pointing to right instance?
-        fbInstance = firebaseManager.GetComponent<FirebaseManager>();
+        // fbInstance = firebaseManager.GetComponent<FirebaseManager>();
     }
 
     public int Points
@@ -80,7 +80,8 @@ public class ScoreAndGameover : MonoBehaviour
         liveShopButton.SetActive(false);
         deadShopButton.SetActive(true);
 
-        fbInstance.UpdateDatabaseUponDeath(highscore, Points);
+        // fbInstance.UpdateDatabaseUponDeath(highscore, Points);
+        FirebaseManager.Instance.UpdateDatabaseUponDeath(highscore, Points);
         }
 
 

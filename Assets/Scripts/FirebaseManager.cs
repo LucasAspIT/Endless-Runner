@@ -42,8 +42,30 @@ public class FirebaseManager : MonoBehaviour
     private int curLoadedDBTScore;
     private int curLoadedDBTDeaths;
 
+    // Canvas
+    [SerializeField] private GameObject fbCanvas;
+    [SerializeField] private GameObject gameCanvas;
+
+    private static FirebaseManager instance;
+    public static FirebaseManager Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+
     void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+
         // Check that all of the necessary dependencies for Firebase are present on the system
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
         {
@@ -113,6 +135,12 @@ public class FirebaseManager : MonoBehaviour
         StartCoroutine(UpdateHighscore(int.Parse(highscoreField.text)));
         StartCoroutine(UpdateTotalScore(int.Parse(totalScoreField.text)));
         StartCoroutine(UpdateTotalDeaths(int.Parse(totalDeathsField.text)));
+    }
+
+    public void PlayButton()
+    {
+        fbCanvas.SetActive(false);
+        gameCanvas.SetActive(true);
     }
 
     // Function for the scoreboard button
