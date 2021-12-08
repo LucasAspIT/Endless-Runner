@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
     private bool xy = true;
+    private bool deathHalfway = false;
     private bool deathComplete = false;
 
     public static bool isDead;
@@ -62,11 +63,12 @@ public class PlayerController : MonoBehaviour
         if (isDead && !deathComplete)
         {
             // Enable death screen.
-            if (player.transform.position.y < -10)
+            if (player.transform.position.y < -10 && !deathHalfway)
             {
-                ScoreAndGameover.Instance.DeathScore();
+                ScoreAndGameover.Instance.PlayerDeath();
                 highscoreText.SetActive(true);
                 restartButton.SetActive(true);
+                deathHalfway = true;
             }
 
             // Stop player from falling forever after death.

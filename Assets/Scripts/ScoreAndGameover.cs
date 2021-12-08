@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Firebase.Database;
 
 public class ScoreAndGameover : MonoBehaviour
 {
@@ -22,6 +23,10 @@ public class ScoreAndGameover : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI highscoreTextHUD;
 
+    [SerializeField]
+    private GameObject firebaseManager;
+    private FirebaseManager fbInstance;
+
     private int points;
     private int highscore;
 
@@ -37,6 +42,12 @@ public class ScoreAndGameover : MonoBehaviour
             }
             return instance;
         }
+    }
+
+    private void Awake()
+    {
+        // firebaseManager = gameObject.GetComponent<FirebaseManager>(); // ###################### Not pointing to right instance?
+        fbInstance = firebaseManager.GetComponent<FirebaseManager>();
     }
 
     public int Points
@@ -55,7 +66,7 @@ public class ScoreAndGameover : MonoBehaviour
     /// <summary>
     /// Moves the score of the run upon death, so it's in the middle of the screen, right above the high-score.
     /// </summary>
-    public void DeathScore()
+    public void PlayerDeath()
     {
         topLeftScoreHUD.enabled = false;
         endScreenScoreHUD.text = Points.ToString();
@@ -68,7 +79,10 @@ public class ScoreAndGameover : MonoBehaviour
 
         liveShopButton.SetActive(false);
         deadShopButton.SetActive(true);
-    }
+
+        fbInstance.UpdateDatabaseUponDeath(highscore, Points);
+        }
+
 
     /// <summary>
     /// Reloads the scene, effectively "restarting" the game.

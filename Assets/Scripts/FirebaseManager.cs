@@ -38,6 +38,9 @@ public class FirebaseManager : MonoBehaviour
     public TMP_InputField totalDeathsField;
     public GameObject scoreElement;
     public Transform scoreboardContent;
+    private int curLoadedDBHighscore;
+    private int curLoadedDBTScore;
+    private int curLoadedDBTDeaths;
 
     void Awake()
     {
@@ -294,23 +297,31 @@ public class FirebaseManager : MonoBehaviour
 
     private IEnumerator UpdateHighscore(int _highscore)
     {
-        // Set the currently logged in user highscore
-        var DBTask = DBreference.Child("users").Child(User.UserId).Child("highscore").SetValueAsync(_highscore);
-
-        yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
-
-        if (DBTask.Exception != null)
+        // Only update the database if the highscore is actually a highscore.
+        if (_highscore > curLoadedDBHighscore)
         {
-            Debug.LogWarning(message: $"Failed to register task with {DBTask.Exception}");
-        }
-        else
-        {
-            // Highscore is now updated
+            // Set the currently logged in user highscore
+            var DBTask = DBreference.Child("users").Child(User.UserId).Child("highscore").SetValueAsync(_highscore);
+
+            yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
+
+            if (DBTask.Exception != null)
+            {
+                Debug.LogWarning(message: $"Failed to register task with {DBTask.Exception}");
+            }
+            else
+            {
+                // Highscore is now updated
+                Debug.Log("Updated DB Highscore.");
+            }
         }
     }
 
     private IEnumerator UpdateTotalScore(int _totalScore)
     {
+        // Add the score gained in the game to the total score.
+        _totalScore += curLoadedDBTScore;
+
         // Set the currently logged in user totalScore
         var DBTask = DBreference.Child("users").Child(User.UserId).Child("totalScore").SetValueAsync(_totalScore);
 
@@ -323,11 +334,15 @@ public class FirebaseManager : MonoBehaviour
         else
         {
             // Total score is now updated
+            Debug.Log("Updated DB TotalScore.");
         }
     }
 
     private IEnumerator UpdateTotalDeaths(int _totalDeaths)
     {
+        // Add the death to the total deaths count.
+        _totalDeaths += curLoadedDBTDeaths;
+
         // Set the currently logged in user totalDeaths
         var DBTask = DBreference.Child("users").Child(User.UserId).Child("totalDeaths").SetValueAsync(_totalDeaths);
 
@@ -340,7 +355,18 @@ public class FirebaseManager : MonoBehaviour
         else
         {
             // Total deaths are now updated
+            Debug.Log("Updated DB TotalDeaths.");
         }
+    }
+
+    // ###################################################################################################################################################
+    public void UpdateDatabaseUponDeath(int _highscore, int _totalScore)
+    {
+        StartCoroutine(UpdateHighscore(_highscore));
+        StartCoroutine(UpdateTotalScore(_totalScore));
+        StartCoroutine(UpdateTotalDeaths(1));
+
+        Debug.Log("UpdateDatabaseUponDeath() called.");
     }
 
     private IEnumerator LoadUserData()
@@ -369,8 +395,11 @@ public class FirebaseManager : MonoBehaviour
             DataSnapshot snapshot = DBTask.Result;
 
             highscoreField.text = snapshot.Child("highscore").Value.ToString();
+            curLoadedDBHighscore = int.Parse(highscoreField.text);
             totalScoreField.text = snapshot.Child("totalScore").Value.ToString();
+            curLoadedDBTScore = int.Parse(totalScoreField.text);
             totalDeathsField.text = snapshot.Child("totalDeaths").Value.ToString();
+            curLoadedDBTDeaths = int.Parse(totalDeathsField.text);
         }
     }
 
