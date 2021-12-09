@@ -29,6 +29,8 @@ public class ScoreAndGameover : MonoBehaviour
 
     private int points;
     private int highscore;
+    private int dbHighscore;
+    private static bool initialScoreLoad;
 
     private static ScoreAndGameover instance;
 
@@ -46,8 +48,54 @@ public class ScoreAndGameover : MonoBehaviour
 
     private void Awake()
     {
-        // firebaseManager = gameObject.GetComponent<FirebaseManager>(); // ###################### Not pointing to right instance?
-        // fbInstance = firebaseManager.GetComponent<FirebaseManager>();
+        dbHighscore = LoadedData.Instance.Highscore;
+
+        if (!initialScoreLoad)
+        {
+            // If local HS is higher than DB HS, load local HS and save it to DB.
+            if (PlayerPrefs.GetInt("Highscore", 0) > dbHighscore)
+            {
+                // Load the local highscore and save it, if there is none use 0 as default. Ignore if the local highscore is less than the one loaded from the database.
+                Highscore = PlayerPrefs.GetInt("Highscore", 0);
+
+                // If the local highscore is higher, save it in the database.
+                FirebaseManager.Instance.UpdateDatabaseHighscoreOnLoad(ScoreAndGameover.Instance.Highscore);
+            }
+            // If DB HS is higher than local HS, load DB HS and save it locally.
+            else if (dbHighscore > PlayerPrefs.GetInt("Highscore", 0))
+            {
+                PlayerPrefs.SetInt("Highscore", dbHighscore);
+                Highscore = dbHighscore;
+            }
+            // If both DB HS and local HS are the same, load it.
+            else if (dbHighscore == PlayerPrefs.GetInt("Highscore", 0))
+            {
+                Highscore = dbHighscore;
+            }
+            // Make sure this only loads on first game start.
+            initialScoreLoad = true;
+        }
+
+        // Load the score every game restart. (Not the initial first game.)
+        if (Highscore == 0)
+        {
+            Highscore = PlayerPrefs.GetInt("Highscore", 0);
+        }
+
+        // Set the text for when the death screen is shown.
+        highscoreTextHUD.text = Highscore.ToString();
+    }
+
+    public int Highscore
+    {
+        get
+        {
+            return highscore;
+        }
+        set
+        {
+            highscore = value;
+        }
     }
 
     public int Points
@@ -63,6 +111,11 @@ public class ScoreAndGameover : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+
+    }
+
     /// <summary>
     /// Moves the score of the run upon death, so it's in the middle of the screen, right above the high-score.
     /// </summary>
@@ -71,18 +124,24 @@ public class ScoreAndGameover : MonoBehaviour
         topLeftScoreHUD.enabled = false;
         endScreenScoreHUD.text = Points.ToString();
 
-        if (Points > highscore)
+        if (Points > Highscore)
         {
-            highscore = Points;
-            highscoreTextHUD.text = highscore.ToString();
+            // If the highscore was beat, save the new highscore.
+            PlayerPrefs.SetInt("Highscore", Points);
+            Highscore = Points;
         }
+        highscoreTextHUD.text = Highscore.ToString();
 
         liveShopButton.SetActive(false);
         deadShopButton.SetActive(true);
 
-        // fbInstance.UpdateDatabaseUponDeath(highscore, Points);
-        FirebaseManager.Instance.UpdateDatabaseUponDeath(highscore, Points);
+        FirebaseManager.Instance.UpdateDatabaseUponDeath(Highscore, Points);
         }
+
+    public void ResetPlayerprefHighscore()
+    {
+        PlayerPrefs.DeleteKey("Highscore");
+    }
 
 
     /// <summary>
@@ -90,6 +149,6 @@ public class ScoreAndGameover : MonoBehaviour
     /// </summary>
     public void RestartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("EndlessRunner");
     }
 }

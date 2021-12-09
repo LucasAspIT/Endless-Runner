@@ -5,6 +5,7 @@ using Firebase.Database;
 using Firebase.Auth;
 using TMPro;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class FirebaseManager : MonoBehaviour
 {
@@ -42,10 +43,6 @@ public class FirebaseManager : MonoBehaviour
     private int curLoadedDBTScore;
     private int curLoadedDBTDeaths;
 
-    // Canvas
-    [SerializeField] private GameObject fbCanvas;
-    [SerializeField] private GameObject gameCanvas;
-
     private static FirebaseManager instance;
     public static FirebaseManager Instance
     {
@@ -80,6 +77,8 @@ public class FirebaseManager : MonoBehaviour
                 Debug.LogError("Could not resolve all Firebase dependencies: " + dependencyStatus);
             }
         });
+
+        DontDestroyOnLoad(gameObject);
     }
 
     private void InitializeFirebase()
@@ -90,12 +89,18 @@ public class FirebaseManager : MonoBehaviour
         DBreference = FirebaseDatabase.DefaultInstance.RootReference;
     }
 
+    /// <summary>
+    /// Clears the fields on the login UI.
+    /// </summary>
     public void ClearLoginFields()
     {
         emailLoginField.text = "";
         passwordLoginField.text = "";
     }
 
+    /// <summary>
+    /// Clears the text fields on the Register UI.
+    /// </summary>
     public void ClearRegisterFields()
     {
         usernameRegisterField.text = "";
@@ -104,7 +109,7 @@ public class FirebaseManager : MonoBehaviour
         passwordRegisterVerifyField.text = "";
     }
 
-    // Function for the login button
+    // Function for login button
     public void LoginButton()
     {
         // Call the login coroutine passing the email and password
@@ -127,6 +132,7 @@ public class FirebaseManager : MonoBehaviour
         ClearLoginFields();
     }
 
+    // Function for button that saves manually edited DB stats. Should be used for testing purposes
     public void SaveDataButton()
     {
         StartCoroutine(UpdateUsernameAuth(usernameField.text));
@@ -137,10 +143,10 @@ public class FirebaseManager : MonoBehaviour
         StartCoroutine(UpdateTotalDeaths(int.Parse(totalDeathsField.text)));
     }
 
+    // Function for the play button
     public void PlayButton()
     {
-        fbCanvas.SetActive(false);
-        gameCanvas.SetActive(true);
+        SceneManager.LoadScene("EndlessRunner");
     }
 
     // Function for the scoreboard button
@@ -149,6 +155,12 @@ public class FirebaseManager : MonoBehaviour
         StartCoroutine(LoadScoreboardData());
     }
 
+    /// <summary>
+    /// Sends the input information to Firebase to attempt a login.
+    /// </summary>
+    /// <param name="_email"></param>
+    /// <param name="_password"></param>
+    /// <returns></returns>
     private IEnumerator Login(string _email, string _password)
     {
         // Call the Firebase auth signin function passing the email and password
@@ -204,6 +216,13 @@ public class FirebaseManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sends the input information to Firebase for to attempt to register.
+    /// </summary>
+    /// <param name="_email"></param>
+    /// <param name="_password"></param>
+    /// <param name="_username"></param>
+    /// <returns></returns>
     private IEnumerator Register(string _email, string _password, string _username)
     {
         if (_username == "")
@@ -325,7 +344,7 @@ public class FirebaseManager : MonoBehaviour
 
     private IEnumerator UpdateHighscore(int _highscore)
     {
-        // Only update the database if the highscore is actually a highscore.
+        // Only update the database if the highscore is actually a highscore
         if (_highscore > curLoadedDBHighscore)
         {
             // Set the currently logged in user highscore
@@ -347,7 +366,7 @@ public class FirebaseManager : MonoBehaviour
 
     private IEnumerator UpdateTotalScore(int _totalScore)
     {
-        // Add the score gained in the game to the total score.
+        // Add the score gained in the game to the total score
         _totalScore += curLoadedDBTScore;
 
         // Set the currently logged in user totalScore
@@ -363,12 +382,13 @@ public class FirebaseManager : MonoBehaviour
         {
             // Total score is now updated
             Debug.Log("Updated DB TotalScore.");
+            curLoadedDBTScore = _totalScore;
         }
     }
 
     private IEnumerator UpdateTotalDeaths(int _totalDeaths)
     {
-        // Add the death to the total deaths count.
+        // Add the death to the total deaths count
         _totalDeaths += curLoadedDBTDeaths;
 
         // Set the currently logged in user totalDeaths
@@ -384,10 +404,16 @@ public class FirebaseManager : MonoBehaviour
         {
             // Total deaths are now updated
             Debug.Log("Updated DB TotalDeaths.");
+            curLoadedDBTDeaths = _totalDeaths;
         }
     }
 
-    // ###################################################################################################################################################
+    /// <summary>
+    /// Starts the coroutines that take are of updating the database.
+    /// <para>Highscore, total score and death count is sent.</para>
+    /// </summary>
+    /// <param name="_highscore"></param>
+    /// <param name="_totalScore"></param>
     public void UpdateDatabaseUponDeath(int _highscore, int _totalScore)
     {
         StartCoroutine(UpdateHighscore(_highscore));
@@ -397,6 +423,18 @@ public class FirebaseManager : MonoBehaviour
         Debug.Log("UpdateDatabaseUponDeath() called.");
     }
 
+    /// <summary>
+    /// In case the local highscore is higher than the database highscore, this can be fired.
+    /// </summary>
+    public void UpdateDatabaseHighscoreOnLoad(int _highscore)
+    {
+        StartCoroutine(UpdateHighscore(_highscore));
+    }
+
+    /// <summary>
+    /// Loads the currently logged in user's data from the database.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator LoadUserData()
     {
         // Get the currently logged in user data
@@ -422,18 +460,26 @@ public class FirebaseManager : MonoBehaviour
             // Data has been retrieved
             DataSnapshot snapshot = DBTask.Result;
 
+            // Save the info for use in the scoreboard, and for later when updating the DB
             highscoreField.text = snapshot.Child("highscore").Value.ToString();
             curLoadedDBHighscore = int.Parse(highscoreField.text);
             totalScoreField.text = snapshot.Child("totalScore").Value.ToString();
             curLoadedDBTScore = int.Parse(totalScoreField.text);
             totalDeathsField.text = snapshot.Child("totalDeaths").Value.ToString();
             curLoadedDBTDeaths = int.Parse(totalDeathsField.text);
+
+
+            LoadedData.Instance.Highscore = curLoadedDBHighscore;
         }
     }
 
+    /// <summary>
+    /// Loads the scoreboard data from the DB and displays it on the scoreboard element.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator LoadScoreboardData()
     {
-        // Get all the users data ordered by highscore.
+        // Get all the users data ordered by highscore
         var DBTask = DBreference.Child("users").OrderByChild("highscore").GetValueAsync();
 
         yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
@@ -466,7 +512,7 @@ public class FirebaseManager : MonoBehaviour
                 scoreboardElement.GetComponent<ScoreElement>().NewScoreElement(username, highscore, totalScore, totalDeaths);
             }
 
-            // Go to scoareboard screen
+            // Go to scoreboard screen
             UIManager.instance.ScoreboardScreen();
         }
     }
