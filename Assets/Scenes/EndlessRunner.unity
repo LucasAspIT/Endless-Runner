@@ -5532,6 +5532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ps: {fileID: 4137626005874408502, guid: 6070cdcc088f6fc46adba57d33792e0b, type: 3}
+  floatingTextPrefab: {fileID: 7879086802125373206, guid: 6813a8accd6e3834986d43547483936b, type: 3}
   randomPickupSFX: {fileID: 1720214886}
 --- !u!1 &1397464704
 GameObject:
