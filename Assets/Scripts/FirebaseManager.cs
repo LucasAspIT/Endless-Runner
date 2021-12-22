@@ -39,7 +39,7 @@ public class FirebaseManager : MonoBehaviour
     public TMP_InputField totalDeathsField;
     public GameObject scoreElement;
     public Transform scoreboardContent;
-    private int curLoadedDBHighscore;
+    private int curLoadedDBHighscore = 0;
     private int curLoadedDBTScore;
     private int curLoadedDBTDeaths;
 
@@ -293,6 +293,12 @@ public class FirebaseManager : MonoBehaviour
                     }
                     else
                     {
+                        // Set the initial database values
+                        StartCoroutine(UpdateUsernameDatabase(_username));
+                        StartCoroutine(UpdateHighscore(0));
+                        StartCoroutine(UpdateTotalScore(0));
+                        StartCoroutine(UpdateTotalDeaths(0));
+
                         // Username is now set
                         // Now return to login screen
                         UIManager.instance.LoginScreen();
@@ -345,7 +351,7 @@ public class FirebaseManager : MonoBehaviour
     private IEnumerator UpdateHighscore(int _highscore)
     {
         // Only update the database if the highscore is actually a highscore
-        if (_highscore > curLoadedDBHighscore)
+        if (_highscore > curLoadedDBHighscore || curLoadedDBHighscore == 0)
         {
             // Set the currently logged in user highscore
             var DBTask = DBreference.Child("users").Child(User.UserId).Child("highscore").SetValueAsync(_highscore);

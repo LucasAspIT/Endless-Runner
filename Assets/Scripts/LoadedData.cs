@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class LoadedData : MonoBehaviour
 {
-    // private bool HasDoneInitialLoad = false;
     private int highscore;
 
     public int Highscore
@@ -56,18 +55,5 @@ public class LoadedData : MonoBehaviour
     {
         Debug.Log("OnSceneLoaded: " + scene.name);
         Debug.Log("Scene loaded fully.");
-
-        /* 
-        if (ScoreAndGameover.Instance != null && !HasDoneInitialLoad)
-        {
-            if (Instance.Highscore > ScoreAndGameover.Instance.Highscore)
-            {
-                ScoreAndGameover.Instance.Highscore = Instance.Highscore;
-                Debug.Log("Set ScoreAndGameover.Instance.Highscore");
-            }
-            HasDoneInitialLoad = true;
-        }
-        */
     }
-
 }
