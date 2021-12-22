@@ -42,3 +42,4 @@ Assets/Firebase*
 Assets/Editor Default Resources/Firebase*
 Assets/google-services.json
 Assets/StreamingAssets/google-services-desktop.json
+Assets/Plugins/Android/FirebaseApp.androidlib/res/values/google-services.xml
