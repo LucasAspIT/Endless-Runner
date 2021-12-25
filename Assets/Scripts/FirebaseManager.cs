@@ -81,6 +81,12 @@ public class FirebaseManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void Start()
+    {
+        emailLoginField.text = PlayerPrefs.GetString("SavedEmail", "");
+        passwordLoginField.text = PlayerPrefs.GetString("SavedPassword", ""); // ########### THIS IS PROBABLY UNSAFE, BUT FINE FOR AN INTERNAL PRACTICE APP ONLY.
+    }
+
     private void InitializeFirebase()
     {
         Debug.Log("Setting up Firebase Auth");
@@ -204,6 +210,8 @@ public class FirebaseManager : MonoBehaviour
             Debug.LogFormat("User signed in successfully: {0} ({1})", User.DisplayName, User.Email);
             warningLoginText.text = "";
             confirmLoginText.text = "Logged in";
+            PlayerPrefs.SetString("SavedEmail", emailLoginField.text);
+            PlayerPrefs.SetString("SavedPassword", passwordLoginField.text); // ########### THIS IS PROBABLY UNSAFE, BUT FINE FOR AN INTERNAL PRACTICE APP ONLY.
             StartCoroutine(LoadUserData());
 
             yield return new WaitForSeconds(2);
